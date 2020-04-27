@@ -7,6 +7,7 @@
 //
 
 import SwiftUI
+
 import FirebaseAnalytics
 import FirebaseCrashlytics
 
@@ -17,8 +18,13 @@ struct ContentView: View {
     var body: some View {
         NavigationView {
                 VStack {
-                        TextField("enter Name", text: $name)
-                            .frame(width: 200, height: 70, alignment: .center)
+                    TextField("Enter Name", text: $name)
+                        .frame(minWidth: 0, maxWidth: .infinity, alignment: .center)
+                        .padding(4)
+                        .font(.subheadline)
+                        .foregroundColor(Color.gray)
+                        .overlay(RoundedRectangle(cornerRadius: 8)
+                            .stroke(Color.blue, lineWidth: 1))
                         
                         NavigationLink(destination: SendInformationView(name: name), tag: 1, selection: $selection) {
                             Button(action: {
@@ -34,9 +40,19 @@ struct ContentView: View {
                                 }
                             }, label: {
                                 Text("Name")
+                                    .fontWeight(.semibold)
+                                    .font(.system(size: 24, weight: .light, design: .rounded))
                             })
+                            .frame(minWidth: 0, maxWidth: .infinity)
+                            .foregroundColor(.white)
+                                .background(
+                                    LinearGradient(gradient: Gradient(colors:
+                                        [Color.orange, Color.red]),
+                                                   startPoint: .leading, endPoint: .trailing))
+                            .cornerRadius(12)
+                            .padding(.horizontal, 4)
                         }
-                    }
+            }.padding(4)
         }
     }
 

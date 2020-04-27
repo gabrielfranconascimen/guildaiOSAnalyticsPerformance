@@ -11,27 +11,54 @@ import FirebasePerformance
 
 struct SendInformationView: View {
     var name: String
-    @State var trace: Trace? = Performance.sharedInstance().trace(name: "iOS_GUILDA")
+    @State var trace: Trace? = Performance.startTrace(name: "iOS_GUILDA")
     
     var body: some View {
-        VStack {
-            Text(name)
+        VStack() {
             
+            Text(self.name)
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .font(.system(size: 16, weight: .bold, design: .serif))
+                .lineLimit(2)
+                .padding(4)
+                
             Button(action: {
-                self.sendEvent(isiOS: false)
-            }, label: {
-                Text("Enviar Android")
-                    .font(.title)
+                    self.sendEvent(isiOS: false)
+                }, label: {
+                    Text("Enviar Android")
+                        .fontWeight(.semibold)
+                        .font(.system(size: 24, weight: .light, design: .rounded))
+                    
             })
-                .padding()
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .foregroundColor(.white)
+                .background(
+                    LinearGradient(gradient: Gradient(colors:
+                        [Color.gray, Color.green]),
+                                   startPoint: .leading, endPoint: .trailing))
+                .cornerRadius(12)
+                .padding(4)
+                
+            Button(action: {
+                    self.sendEvent(isiOS: true)
+                }, label: {
+                    Text("Enviar iOS")
+                       .fontWeight(.semibold)
+                        .font(.system(size: 24, weight: .light, design: .rounded))
+                    
+            })
+                .frame(minWidth: 0, maxWidth: .infinity)
+                .foregroundColor(.white)
+                .background(
+                    LinearGradient(gradient: Gradient(colors:
+                        [Color.primary, Color.gray]),
+                                   startPoint: .leading, endPoint: .trailing))
+                .cornerRadius(12)
+                .padding(4)
             
-            Button(action: {
-                self.sendEvent(isiOS: true)
-            }, label: {
-                Text("Enviar iOS")
-                    .font(.title)
-            })
-            .padding()
+        }
+            .onDisappear() {
+                self.trace?.stop()
         }
     }
     
